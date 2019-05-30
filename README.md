@@ -1,0 +1,2 @@
+# MyCpp
+exercises for c++
