@@ -5,12 +5,13 @@
 #include <random>
 using namespace std;
 
+#define DISTANCE_INIT 9999;
 
 double prob()
 {
     return (static_cast<double>(rand())/RAND_MAX);
 }
-double  dist()
+double  weight()
 {
     return(1.0+(static_cast<double>((90*rand())/RAND_MAX))/10);
 }
@@ -27,57 +28,74 @@ EdgeNode::EdgeNode(int key, int weight){
     this->key = key;
     this->weight = weight;
     this->next = NULL;
-};
+}
 
 class Dijkstra{
     public:
-        void initialize();
-        int nodes_amount, MAXV;
-        double edge_density;
+        void create_graph(); //initialize all edges for the graph
+        void print(); // print the adjacent matrix of the graph
+        void initialize(); // create start values for the dijkstra algo
+        int nodes_amount, MAXV, source; // number of nodes and start node for finding the shortest path
+        double edge_density; // edge density for the graph
+        double **connection; // distance between the nodes
+        double* dist; // ?
+        bool* mark; // see breitensuche
+        int* predecessor; // predecessor of the node on the shortest path
 
 };
-void Dijkstra::initialize()
+void Dijkstra::create_graph()
 {
-  bool** connected;
-  double **distance;
   cout<<"Number of nodes (>1): ";
   cin>>nodes_amount;
   cout<<"\nEdge Density (0-1)";
   cin>>edge_density;
+  cout<<"Enter the source vertex\n";
+  cin>>source;
   MAXV = nodes_amount;
     srand(time(0)); // seed random generator
-    connected = new bool*[MAXV];
-    distance = new double*[MAXV];
+    connection = new double*[MAXV];
     for(int i= 0; i<MAXV; ++i)
     {
-        connected[i] = new bool[MAXV];
-        distance[i] = new double[MAXV];
+        connection[i] = new double[MAXV];
     }
     //heap created 2D model of bool
 for(int i=0; i<MAXV;++i)
 {
      for(int j=i; j<MAXV;++j)
      {
-        if(i==j) connected[i][j] = false; // no loops
-        else  connected[i][j]=connected[j][i]=(prob()<edge_density); //generating the density with distances from 1.0 to 10.0
-        distance[i][j]= distance[j][i]= connected[i][j] * dist();
+        if(i==j) connection[i][j] = 0; // no loops
+        else  connection[i][j]=connection[j][i]=(prob()<edge_density)*weight(); //generating the density with distances from 1.0 to 10.0
+
      }
 }
+}
 
-for(int i=0; i<MAXV;++i)
+void Dijkstra::print()
 {
+  for(int i=0; i<MAXV;++i)
+    {
     for(int j=0; j<MAXV;++j)
-    cout<<distance[i][j]<<", ";
- cout<<"\n";
+    cout<<connection[i][j]<<", ";
+    cout<<"\n";
+    }
 }
 
-}
+void Dijkstra::initialize() {
+     for(int i=1;i<=MAXV;i++) {
+             mark[i] = false;
+             dist[i] = DISTANCE_INIT ;
+     predecessor[i] = -1;
+     }
+     dist[source]= 0;
+ }
+
 int main()
 {
  Dijkstra a;
- a.initialize();
+ a.create_graph();
+ a.print();
 
-    return 0;
+ return 0;
 }
 
 
