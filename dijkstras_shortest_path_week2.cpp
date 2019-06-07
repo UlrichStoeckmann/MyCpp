@@ -35,6 +35,7 @@ class Dijkstra{
         void create_graph(); //initialize all edges for the graph
         void print(); // print the adjacent matrix of the graph
         void initialize(); // create start values for the dijkstra algo
+        void calculate_dist(); //
         int nodes_amount, MAXV, source; // number of nodes and start node for finding the shortest path
         double edge_density; // edge density for the graph
         double **connection; // distance between the nodes
@@ -59,15 +60,15 @@ void Dijkstra::create_graph()
         connection[i] = new double[MAXV];
     }
     //heap created 2D model of bool
-for(int i=0; i<MAXV;++i)
-{
-     for(int j=i; j<MAXV;++j)
-     {
-        if(i==j) connection[i][j] = 0; // no loops
-        else  connection[i][j]=connection[j][i]=(prob()<edge_density)*weight(); //generating the density with distances from 1.0 to 10.0
+    for(int i=0; i<MAXV;++i)
+    {
+        for(int j=i; j<MAXV;++j)
+        {
+            if(i==j) connection[i][j] = 0; // no loops
+            else  connection[i][j]=connection[j][i]=(prob()<edge_density)*weight(); //generating the density with distances from 1.0 to 10.0
 
-     }
-}
+        }
+    }
 }
 
 void Dijkstra::print()
@@ -80,15 +81,28 @@ void Dijkstra::print()
     }
 }
 
-void Dijkstra::initialize() {
-     for(int i=1;i<=MAXV;i++) {
-             mark[i] = false;
-             dist[i] = DISTANCE_INIT ;
-     predecessor[i] = -1;
-     }
+void Dijkstra::initialize()
+{
+    for(int i=1;i<=MAXV;i++)  // set initial values for all nodes
+    {
+        mark[i] = false;
+        dist[i] = DISTANCE_INIT ;
+        predecessor[i] = -1;
+    }
      dist[source]= 0;
  }
 
+ void Dijkstra::calculate_dist()
+ {
+     initialize();
+     int minDistance = DISTANCE_INIT;
+     int closestUnmarkedNode;
+     int count = 0;
+  	 while(count<MAXV)
+  	 {
+
+  	 }
+ }
 int main()
 {
  Dijkstra a;
