@@ -1,5 +1,4 @@
-/*ToDo: 1. alle Variablen und Methoden in die Klasse verschieben
-2. den Dijkstra Algorithmus implementieren */
+/*ToDo: 1. eine Klasse nodes einführen und mehr mit Objekten arbeiten */
 #include <iostream>
 #include <ctime>
 #include <random>
